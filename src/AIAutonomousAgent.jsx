@@ -55,13 +55,15 @@ const App = () => {
   // ----------------------------------------------------------------------
   // const HF_BACKEND_URL = "http://localhost:3001/api/hf"; change due to deployment
   //for deployment we use :
-  const HF_BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001/api/hf";
+  // ✅ Backend base URL (local + production both)
+  const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
 
+
+   // for deployment  text route 
+  const HF_BACKEND_URL = `${BACKEND_BASE_URL}/api/hf`;
   //FOR DEPLOYMENT IMAGE ROUTE :
-  const IMAGE_BACKEND_URL =
-  import.meta.env.VITE_BACKEND_URL
-    ? `${import.meta.env.VITE_BACKEND_URL}/api/hf-image`
-    : "http://localhost:3001/api/hf-image";
+  const HF_IMAGE_URL = `${BACKEND_BASE_URL}/api/hf-image`;
+
 
 
   const scrollToBottom = () => {
@@ -122,7 +124,7 @@ const App = () => {
 
   const callImageAPI = async (prompt) => {
     try {
-      const response = await fetch(IMAGE_BACKEND_URL, {
+      const response = await fetch(HF_IMAGE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
